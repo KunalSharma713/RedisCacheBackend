@@ -68,6 +68,7 @@ const generateRandomProducts = () => {
     products.push({
       name: `${adjective} ${category} ${item} #${i}`,
       price: price,
+      category: category,
     });
   }
 

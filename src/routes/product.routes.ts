@@ -94,6 +94,7 @@ router.get(
           $project: {
             name: 1,
             price: 1,
+            category: 1,
             priceWithTax: 1,
             nameLength: 1,
             priceCategory: 1,
@@ -115,6 +116,7 @@ router.get(
                 _id: "$_id",
                 name: "$name",
                 price: "$price",
+                category: "$category",
                 priceWithTax: "$priceWithTax",
                 nameLength: "$nameLength",
                 computedField: "$computedField",
@@ -230,6 +232,7 @@ router.get(
         $project: {
           name: 1,
           price: 1,
+          category: 1,
           priceWithTax: 1,
           nameLength: 1,
           priceCategory: 1,
@@ -257,6 +260,7 @@ router.get(
               _id: "$_id",
               name: "$name",
               price: "$price",
+              category: "$category",
               priceWithTax: "$priceWithTax",
               nameLength: "$nameLength",
               computedField: "$computedField",
