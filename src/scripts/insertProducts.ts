@@ -59,14 +59,49 @@ const generateRandomProducts = () => {
     "Game",
   ];
 
+  const itemCategoryMap = {
+    Laptop: "Electronics",
+    Phone: "Electronics",
+    Tablet: "Electronics",
+    Watch: "Electronics",
+    Headphones: "Electronics",
+    Camera: "Electronics",
+    Speaker: "Electronics",
+    Mouse: "Electronics",
+    Keyboard: "Electronics",
+    Monitor: "Electronics",
+    Chair: "Home",
+    Desk: "Home",
+    Book: "Books",
+    Shirt: "Clothing",
+    Pants: "Clothing",
+    Shoes: "Clothing",
+    Bag: "Clothing",
+    Bottle: "Home",
+    Cup: "Home",
+    Pen: "Books",
+    Notebook: "Books",
+    Lamp: "Home",
+    Clock: "Home",
+    Mirror: "Home",
+    Ball: "Sports",
+    Bat: "Sports",
+    Racket: "Sports",
+    Gloves: "Sports",
+    Helmet: "Sports",
+    Bike: "Sports",
+    Skateboard: "Sports",
+    Game: "Toys"
+  };
+
   for (let i = 1; i <= 100; i++) {
-    const category = categories[Math.floor(Math.random() * categories.length)];
     const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
     const item = items[Math.floor(Math.random() * items.length)];
     const price = Math.floor(Math.random() * 900) + 10; // Price between 10-909
+    const category = itemCategoryMap[item as keyof typeof itemCategoryMap] || "Misc";
 
     products.push({
-      name: `${adjective} ${category} ${item} #${i}`,
+      name: `${adjective} ${item}`,
       price: price,
       category: category,
     });

@@ -330,4 +330,62 @@ router.post("/", async (req: Request, res: Response) => {
   res.status(201).json(product);
 });
 
+/** UPDATE PRODUCT (INVALIDATES CACHE) */
+router.put("/:id", async (req: Request<{ id: string }>, res: Response) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] Updating product with ID: ${req.params.id}`);
+  
+  try {
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    
+    console.log(`[${timestamp}] Product updated: ${product.name}`);
+
+    const keys = await redisClient.keys("products*");
+    if (keys.length) {
+      await redisClient.del(keys);
+      console.log(`[${timestamp}] Invalidated ${keys.length} cache keys:`, keys);
+    }
+
+    res.json(product);
+  } catch (error) {
+    console.error(`[${timestamp}] Error updating product:`, error);
+    res.status(400).json({ error: "Failed to update product" });
+  }
+});
+
+/** DELETE PRODUCT (INVALIDATES CACHE) */
+router.delete("/:id", async (req: Request<{ id: string }>, res: Response) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] Deleting product with ID: ${req.params.id}`);
+  
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+    
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    
+    console.log(`[${timestamp}] Product deleted: ${product.name}`);
+
+    const keys = await redisClient.keys("products*");
+    if (keys.length) {
+      await redisClient.del(keys);
+      console.log(`[${timestamp}] Invalidated ${keys.length} cache keys:`, keys);
+    }
+
+    res.json({ message: "Product deleted successfully", product });
+  } catch (error) {
+    console.error(`[${timestamp}] Error deleting product:`, error);
+    res.status(400).json({ error: "Failed to delete product" });
+  }
+});
+
 export default router;
