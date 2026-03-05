@@ -26,7 +26,6 @@ const cache =
       console.log(`[${timestamp}] Cached ${Array.isArray(body) ? body.length : 1} item(s)`);
       return originalJson(body);
     };
-
     next();
   };
 
