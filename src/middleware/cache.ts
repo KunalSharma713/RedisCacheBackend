@@ -17,7 +17,6 @@ const cache =
     }
 
     console.log(`[${timestamp}] CACHE MISS! Querying database for key: ${key}`);
-
     const originalJson = res.json.bind(res);
 
     res.json = (body: any) => {
