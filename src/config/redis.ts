@@ -14,4 +14,5 @@ export const connectRedis = async (): Promise<void> => {
     console.log("Redis connected");
   }
 };
+
 export default redisClient;
