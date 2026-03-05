@@ -7,7 +7,6 @@ const cache =
     const key = `${keyPrefix}:${req.originalUrl}`;
     const timestamp = new Date().toISOString();
     const startTime = Date.now();
-
     console.log(`[${timestamp}] Checking cache for key: ${key}`);
 
     const cached = await redisClient.get(key);
